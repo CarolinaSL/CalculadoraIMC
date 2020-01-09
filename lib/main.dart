@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
               child: Container(
                 height: 50.0,
                 child: RaisedButton(
-                  onPressed: _calculate(),
+                  onPressed: (){_calculate();},
                   child: Text(
                     "Calcular IMC",
                     style: TextStyle(color: Colors.white, fontSize: 25.0),
