@@ -17,6 +17,8 @@ class _HomeState extends State<Home> {
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   String _info = " Informe seus dados!";
+  // validacao
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _resetFields(){
     setState(() {
@@ -59,36 +61,48 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.deepPurple[100] ,
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Icon(Icons.person, size: 120.0, color: Colors.deepPurple),
-            TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelStyle: TextStyle(color: Colors.deepPurple),
-                labelText: "Peso (Kg)"
-              ),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.deepPurple, fontSize: 25.0),
-              controller: weightController,
-            ),
-            TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelStyle: TextStyle(color: Colors.deepPurple),
-                labelText: "Altura (cm)"
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Icon(Icons.person, size: 120.0, color: Colors.deepPurple),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.deepPurple),
+                  labelText: "Peso (Kg)"
                 ),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.deepPurple, fontSize: 25.0),
-              controller: heightController,
-            ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.deepPurple, fontSize: 25.0),
+                controller: weightController,
+                validator: (value){
+                  if(value.isEmpty) return "Insira seu peso!"; 
+                },
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.deepPurple),
+                  labelText: "Altura (cm)"
+                  ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.deepPurple, fontSize: 25.0),
+                controller: heightController,
+                validator: (value){
+                  if(value.isEmpty) {return "Insira sua altura!";}
+                },
+              ),
             Padding(
               padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Container(
                 height: 50.0,
                 child: RaisedButton(
-                  onPressed: (){_calculate();},
+                  onPressed: (){
+                    if(_formKey.currentState.validate()){
+                      _calculate();
+                    }
+                  },
                   child: Text(
                     "Calcular IMC",
                     style: TextStyle(color: Colors.white, fontSize: 25.0),
@@ -106,6 +120,7 @@ class _HomeState extends State<Home> {
             )
         ],
       ),
+        ),
       )
     );
   }
