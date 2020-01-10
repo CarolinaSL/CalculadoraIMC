@@ -21,10 +21,12 @@ class _HomeState extends State<Home> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _resetFields(){
-    setState(() {
+    
       weightController.text = "";
       heightController.text = "";
+    setState(() {
       _info = "Informe seus dados!";
+      _formKey = GlobalKey<FormState>();
     });
     
   }
